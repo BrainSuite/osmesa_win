@@ -26,9 +26,9 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: prereqs
-      run: |
-        choco install python3 winflexbison pkgconfiglite ninja
-        py -3 -m pip install meson packaging mako
+      run: choco install winflexbison pkgconfiglite ninja
+    - name: install meson
+      run: py -3 -m pip install meson packaging mako
 
 
     # - name: Add MSBuild to PATH
