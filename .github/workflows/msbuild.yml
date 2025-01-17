@@ -32,9 +32,9 @@ jobs:
         
     - name: unpack mesa source
       run: |
-        tar xf mesa-24.3.3.tar.xz
-        # 7z x  -omesa
-        # 7z x mesa-24.3.3.tar
+        # tar xf mesa-24.3.3.tar.xz
+        7z x mesa-24.3.3.tar.xz -omesa
+        7z x mesa-24.3.3.tar
         dir
         
     - name: prereqs
