@@ -27,7 +27,7 @@ jobs:
     
     - name: download mesa source
       run: |
-        Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz
+        Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz
         dir
         
     - name: unpack mesa source
