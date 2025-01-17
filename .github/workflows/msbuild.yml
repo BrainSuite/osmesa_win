@@ -30,11 +30,15 @@ jobs:
         Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz
         dir
         
-    - name: unpack mesa source
+    - name: unzip mesa source
       run: |
         # tar xf mesa-24.3.3.tar.xz
         7z x mesa-24.3.3.tar.xz -omesa
-        7z x mesa-24.3.3.tar
+        dir
+        
+    - name: unpack mesa source
+      run: |
+        7z x mesa/mesa-24.3.3.tar -omesa_src
         dir
         
     - name: prereqs
