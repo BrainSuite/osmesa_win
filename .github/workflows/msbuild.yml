@@ -49,7 +49,7 @@ jobs:
         move mesa_src/mesa-20.3.5 .
         
     - name: prereqs
-      run: choco install winflexbison pkgconfiglite ninja zlib
+      run: choco install winflexbison pkgconfiglite ninja
 
       
     - name: install meson
