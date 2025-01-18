@@ -25,6 +25,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ runner.arch }}
+        vsversion: 2019
+        
     - name: download mesa source
       run: |
         Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz
@@ -32,7 +37,6 @@ jobs:
         
     - name: unzip mesa source
       run: |
-        # tar xf mesa-24.3.3.tar.xz
         7z x mesa-24.3.3.tar.xz -omesa
         dir mesa
 
@@ -45,7 +49,8 @@ jobs:
       run: choco install winflexbison pkgconfiglite ninja
       
     - name: install meson
-      run: py -3 -m pip install meson packaging mako
+      run: python3 -m pip install meson packaging mako
+      # run: py -3 -m pip install meson packaging mako
 
     - name: build
       run: |
