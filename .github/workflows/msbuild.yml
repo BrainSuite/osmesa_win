@@ -34,12 +34,12 @@ jobs:
       run: |
         # tar xf mesa-24.3.3.tar.xz
         7z x mesa-24.3.3.tar.xz -omesa
-        dir
+        dir mesa
         
     - name: unpack mesa source
       run: |
         7z x mesa/mesa-24.3.3.tar -omesa_src
-        dir
+        dir mesa_src
         
     - name: prereqs
       run: choco install winflexbison pkgconfiglite ninja
