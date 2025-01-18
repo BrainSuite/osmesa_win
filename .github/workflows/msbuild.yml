@@ -57,7 +57,7 @@ jobs:
     - name: build
       run: |
         cd mesa-20.3.5
-        meson setup builddir -Dosmesa=true -Dgallium-drivers=swrast -Dvulkan-drivers="[]" -Dprefix="$PWD/builddir/install" --backend=vs
+        meson setup builddir -Dosmesa=classic -Dgallium-drivers=swrast -Dvulkan-drivers="[]" -Dprefix="$PWD/builddir/install" --backend=vs
         meson install -C builddir
             
     # - name: Add MSBuild to PATH
