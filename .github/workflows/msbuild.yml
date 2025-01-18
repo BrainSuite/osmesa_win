@@ -44,6 +44,7 @@ jobs:
       run: |
         7z x mesa/mesa-24.3.3.tar -omesa_src
         dir mesa_src
+        move mesa_src/mesa-24.3.3 .
         
     - name: prereqs
       run: choco install winflexbison pkgconfiglite ninja
@@ -53,7 +54,8 @@ jobs:
 
     - name: build
       run: |
-        meson setup builddir -Dosmesa=true -Dgallium-drivers=swrast -Dvulkan-drivers=[] -Dprefix=$PWD/builddir/install
+        cd mesa-24.3.3
+        meson setup builddir -Dosmesa=true -Dgallium-drivers=swrast -Dvulkan-drivers="[]" -Dprefix="$PWD/builddir/install" --backend=vs
         meson install -C builddir
             
     # - name: Add MSBuild to PATH
