@@ -35,7 +35,7 @@ jobs:
         # tar xf mesa-24.3.3.tar.xz
         7z x mesa-24.3.3.tar.xz -omesa
         dir mesa
-        
+
     - name: unpack mesa source
       run: |
         7z x mesa/mesa-24.3.3.tar -omesa_src
@@ -47,7 +47,11 @@ jobs:
     - name: install meson
       run: py -3 -m pip install meson packaging mako
 
-
+    - name: build
+      run: |
+        meson setup builddir -Dosmesa=true -Dgallium-drivers=swrast -Dvulkan-drivers=[] -Dprefix=$PWD/builddir/install
+        meson install -C builddir
+            
     # - name: Add MSBuild to PATH
     #   uses: microsoft/setup-msbuild@v1.0.2
 
