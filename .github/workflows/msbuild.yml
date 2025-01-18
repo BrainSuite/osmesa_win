@@ -48,10 +48,21 @@ jobs:
     - name: prereqs
       run: choco install winflexbison pkgconfiglite ninja
       
-    - name: install meson
-      run: python3 -m pip install meson packaging mako
-      # run: py -3 -m pip install meson packaging mako
+    # - name: install meson
+    #   run: python3 -m pip install meson packaging mako
+    #   # run: py -3 -m pip install meson packaging mako
 
+    - name: download meson
+      run: |
+        Invoke-WebRequest https://github.com/mesonbuild/meson/releases/download/1.6.1/meson-1.6.1-64.msi  -OutFile meson-1.6.1-64.msi
+
+    - name: install meson
+      run: |
+        procMain = Start-Process "msiexec" "/i `"meson-1.6.1-64.msi`" /qn /l*! `"install.log`"" -NoNewWindow -PassThru
+        procLog = Start-Process "powershell" "Get-Content -Path `"install.log`" -Wait" -NoNewWindow -PassThru 
+        procMain.WaitForExit() 
+        procLog.Kill()
+        
     - name: build
       run: |
         meson setup builddir -Dosmesa=true -Dgallium-drivers=swrast -Dvulkan-drivers=[] -Dprefix=$PWD/builddir/install
