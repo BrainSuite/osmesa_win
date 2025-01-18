@@ -50,8 +50,8 @@ jobs:
       run: choco install winflexbison pkgconfiglite ninja
       
     - name: install meson
-      run: python3 -m pip install meson packaging mako
-
+      run: python3 -m pip install meson packaging mako PyYAML
+      
     - name: build
       run: |
         cd mesa-24.3.3
