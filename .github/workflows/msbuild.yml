@@ -7,13 +7,7 @@ on:
   #   branches: [ "main" ]
 
 env:
-  # Path to the solution file relative to the root of the project.
-  SOLUTION_FILE_PATH: .
-
-  # Configuration type to build.
-  # You can convert this to a build matrix if you need coverage of multiple configuration types.
-  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  BUILD_CONFIGURATION: Release
+  MESA_VERSION: 24.3.3
 
 permissions:
   contents: read
@@ -32,21 +26,19 @@ jobs:
         
     - name: download mesa source
       run: |
-        Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz
-        Invoke-WebRequest https://archive.mesa3d.org/older-versions/20.x/mesa-20.3.5.tar.xz -OutFile mesa-20.3.5.tar.xz        
-        
+        Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz        
         dir
         
     - name: unzip mesa source
       run: |
-        7z x mesa-20.3.5.tar.xz -omesa
+        7z x mesa-24.3.3.tar.xz -omesa
         dir mesa
 
     - name: unpack mesa source
       run: |
-        7z x mesa/mesa-20.3.5.tar -omesa_src
+        7z x mesa/mesa-24.3.3.tar -omesa_src
         dir mesa_src
-        move mesa_src/mesa-20.3.5 .
+        move mesa_src/mesa-24.3.3 .
         
     - name: prereqs
       run: choco install winflexbison pkgconfiglite ninja
@@ -57,8 +49,9 @@ jobs:
       
     - name: build
       run: |
-        cd mesa-20.3.5
-        meson setup builddir -Dosmesa=classic -Dgallium-drivers=swrast -Dvulkan-drivers="[]" -Dprefix="$PWD/builddir/install" --backend=vs
+        cd mesa-24.3.3
+        meson setup builddir -Dosmesa=true -Dgallium-drivers=softpipe -Dvulkan-drivers="[]" -Dprefix="$PWD/builddir/install" --backend=vs
+        meson compile -C builddir
         meson install -C builddir
             
     # - name: Add MSBuild to PATH
