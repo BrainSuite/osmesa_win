@@ -27,19 +27,19 @@ jobs:
         
     - name: download mesa source
       run: |
-        Invoke-WebRequest https://archive.mesa3d.org/mesa-24.3.3.tar.xz -OutFile mesa-24.3.3.tar.xz        
+        Invoke-WebRequest https://archive.mesa3d.org/mesa-${{ env.MESA_VERSION }}.tar.xz -OutFile mesa-${{ env.MESA_VERSION }}.tar.xz        
         dir
         
     - name: unzip mesa source
       run: |
-        7z x mesa-24.3.3.tar.xz -omesa
+        7z x mesa-${{ env.MESA_VERSION }}.tar.xz -omesa
         dir mesa
 
     - name: unpack mesa source
       run: |
-        7z x mesa/mesa-24.3.3.tar -omesa_src
+        7z x mesa/mesa-${{ env.MESA_VERSION }}.tar -omesa_src
         dir mesa_src
-        move mesa_src/mesa-24.3.3 .
+        move mesa_src/mesa-${{ env.MESA_VERSION }} .
         
     - name: prereqs
       run: choco install winflexbison pkgconfiglite ninja
@@ -49,7 +49,7 @@ jobs:
       run: python3 -m pip install meson packaging mako PyYAML
       
     - name: build
-      working-directory: mesa-24.3.3
+      working-directory: mesa-${{ env.MESA_VERSION }}
       run: |
         meson setup builddir -Dosmesa=true -Dgallium-drivers=softpipe -Dvulkan-drivers="[]" -Dprefix="$PWD/../osmesa" --backend=vs
         meson compile -C builddir
