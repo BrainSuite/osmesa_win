@@ -1,4 +1,5 @@
-name: OSMesaWin
+name: OSMesa Windows Library Builder
+run-name: Build OSMesa for Windows by @${{ github.actor }}
 
 on:
   push:
