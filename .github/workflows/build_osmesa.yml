@@ -8,6 +8,7 @@ on:
   #   branches: [ "main" ]
 
 env:
+  VERSION: 24.3.3
   MESA_VERSION: 24.3.3
 
 permissions:
@@ -24,6 +25,10 @@ jobs:
       with:
         arch: ${{ runner.arch }}
         vsversion: 2019
+    - name: set vars
+      run: |
+        echo "Package=${PWD}/OSMesa_Windows.zip" | Out-File -FilePath $env:GITHUB_ENV -Append
+
         
     - name: download mesa source
       run: |
@@ -54,18 +59,15 @@ jobs:
         meson setup builddir -Dosmesa=true -Dgallium-drivers=softpipe -Dvulkan-drivers="[]" -Dprefix="$PWD/../osmesa" --backend=vs
         meson compile -C builddir
         meson install -C builddir
-            
-    # - name: Add MSBuild to PATH
-    #   uses: microsoft/setup-msbuild@v1.0.2
 
-    # - name: Restore NuGet packages
-    #   working-directory: ${{env.GITHUB_WORKSPACE}}
-    #   run: nuget restore ${{env.SOLUTION_FILE_PATH}}
-
-    # - name: Build
-    #   working-directory: ${{env.GITHUB_WORKSPACE}}
-    #   # Add additional options to the MSBuild command line here (like platform or verbosity level).
-    #   # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-    #   run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-
-    # - name: get_source
+    - name: package
+      run: |
+        Compress-Archive -Path osmesa/* -Destination ${{ env.Package }}
+      
+    - name: Publish ${{ env.Package }}
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "${{ env.Package }}"
+        tag: ${{ env.VERSION }}        
+        allowUpdates: true            
+        
