@@ -59,7 +59,7 @@ jobs:
         meson setup builddir -Dosmesa=true -Dgallium-drivers=softpipe -Dvulkan-drivers="[]" -Dprefix="$PWD/../osmesa" --backend=vs
         meson compile -C builddir
         meson install -C builddir
-        Copy-Item mesa-24.3.3\include\KHR -Destination ..\osmesa\include\ -Recurse 
+        Copy-Item include\KHR -Destination ..\osmesa\include\ -Recurse 
 
     - name: package
       run: |
